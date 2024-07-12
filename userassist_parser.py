@@ -204,7 +204,8 @@ def parse_userassist_offline(guid_map, ntuser_path, output_csv=None, print_to_cm
                         # Parse the binary data to extract run counter, focus count, focus time, and last executed time
                         run_counter = unpack('I', value_data[4:8])[0]
                         focus_count = unpack('I', value_data[8:12])[0]
-                        focus_time = unpack('I', value_data[12:16])[0]
+                        focus_time_milliseconds = unpack('I', value_data[12:16])[0]
+                        focus_time = convert_milliseconds(focus_time_milliseconds)
                         last_executed_timestamp = unpack('Q', value_data[60:68])[0]
                         last_executed = convert_windate(last_executed_timestamp, program_name)
 
