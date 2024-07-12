@@ -46,6 +46,28 @@ def convert_windate(windate, program_name):
         return datetime.fromtimestamp(unix_epoch, timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
     return ""
 
+# Function to convert Focus Time data (in milliseconds) to d(days), h(hours), m(minutes), s(seconds))
+def convert_milliseconds(ms):
+    # Calculate total seconds
+    total_seconds = ms // 1000
+
+    # Calculate days
+    days = total_seconds // (24 * 3600)
+    total_seconds = total_seconds % (24 * 3600)
+
+    # Calculate hours
+    hours = total_seconds // 3600
+    total_seconds %= 3600
+
+    # Calculate minutes
+    minutes = total_seconds // 60
+
+    # Calculate seconds
+    seconds = total_seconds % 60
+
+    return f"{days}d, {hours}h, {minutes}m, {seconds}s"
+
+
 # Function to export parsed data to csv file
 def write_to_csv(data, file_path):
     fieldnames = ["Program Name", "Run Counter", "Focus Count", "Focus Time", "Last Executed"]
@@ -106,7 +128,8 @@ def parse_userassist_live(guid_map, output_csv=None, print_to_cmd=False):
                                             # Parse the binary data to extract run counter, focus count, focus time, and last executed time
                                             run_counter = unpack('I', value_data[4:8])[0]
                                             focus_count = unpack('I', value_data[8:12])[0]
-                                            focus_time = unpack('I', value_data[12:16])[0]
+                                            focus_time_milliseconds = unpack('I', value_data[12:16])[0]
+                                            focus_time = convert_milliseconds(focus_time_milliseconds)
                                             last_executed_timestamp = unpack('Q', value_data[60:68])[0]
                                             last_executed = convert_windate(last_executed_timestamp, program_name)
 
