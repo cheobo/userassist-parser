@@ -121,7 +121,7 @@ def parse_userassist_live(guid_map, output_csv=None, print_to_cmd=False):
                                         # Set default values
                                         run_counter = 0
                                         focus_count = 0
-                                        focus_time = 0
+                                        focus_time = "0d, 0h, 0m, 0s"
                                         last_executed = ""
 
                                         if program_name != 'UEME_CTLSESSION': # UEME_CTLSESSION is excluded because it contains the record for SESSION ID's not programs executed, which means different binary structure 
@@ -196,7 +196,7 @@ def parse_userassist_offline(guid_map, ntuser_path, output_csv=None, print_to_cm
                     # Set default values
                     run_counter = 0
                     focus_count = 0
-                    focus_time = 0
+                    focus_time = "0d, 0h, 0m, 0s"
                     last_executed = ""
 
 

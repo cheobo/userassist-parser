@@ -1,6 +1,7 @@
 from userassist_parser import parse_userassist_live, parse_userassist_offline, map_known_GUID
 import argparse
 import csv
+import pkg_resources
 
 def main():
 
@@ -14,7 +15,8 @@ def main():
     args = parser.parse_args()
 
     # Load the csv file of known GUIDs in Windows systems
-    GUID_map = map_known_GUID(r"lib\knownGUIDs.csv")
+    csv_file_path = pkg_resources.resource_filename(__name__, 'lib/knownGUIDs.csv')
+    GUID_map = map_known_GUID(csv_file_path)
     print("Parsing UserAssist keys...\n")
 
     if args.offline:
